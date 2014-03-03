@@ -180,8 +180,9 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
         }
 
         if (attrs.uiSelect2) {
-          scope.$watch(attrs.uiSelect2, function (newVal, oldVal, scope) {
-            elm.select2(newVal);
+          scope.$watch(attrs.uiSelect2, function (newVal) {
+            angular.extend(opts, newVal);
+            elm.select2(opts);
             controller.$render();
           }, true);
         }
