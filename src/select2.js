@@ -195,8 +195,21 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           });
         }
 
+        var initial_render;
+
+        if (attrs.uiSelect2) {
+          scope.$watch(attrs.uiSelect2, function (newVal) {
+            if (initial_render !== undefined) {
+              $timeout.cancel(initial_render);
+            };
+            angular.extend(opts, newVal);
+            elm.select2(opts);
+            controller.$render();
+          }, true);
+        }
+
         // Initialize the plugin late so that the injected DOM does not disrupt the template compiler
-        $timeout(function () {
+        initial_render = $timeout(function () {
           elm.select2(opts);
 
           // Set initial value - I'm not sure about this but it seems to need to be there
